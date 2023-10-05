@@ -33,6 +33,10 @@ For our supervised learning algorithms, we will use classification goodness-of-f
 | ---------- | ---------------- | ---------------- | ----------------------- |
 | Methods, Potential Results & Discussion | GitHub repository, Project Website & Documentation, Problem Definition | Video Presentation, Dataset Exploration | Project Timeline, Project Introduction/Background, Literature Review |
 
+# Project Timeline - Gantt Chart
+![Gantt Chart](resources/gantt-chart.png)
+To access view the Excel file and download it, please [click here](resources/GanttChart.xlsx "download").
+
 ---
 
 # References
