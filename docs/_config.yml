@@ -1,8 +1,7 @@
-title: Just the Docs Template
-description: A starter template for a Jeykll site using the Just the Docs theme!
+title: Home Credit Risk
+description: Our documentation website for the semester-long Graduate Machine Learning (CS 7641) project, by Reetesh Sudhakar, Nityam Bhachawat, Mark Glinberg, and Yash Gupta.
 theme: just-the-docs
 
 url: https://just-the-docs.github.io
-
 aux_links:
-  Template Repository: https://github.com/just-the-docs/just-the-docs-template
+    Code Repository: https://github.com/reeteshsudhakar/CS-7641-Project
