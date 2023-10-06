@@ -13,7 +13,9 @@ With the housing market facing many uncertainties, many individuals struggle to 
 
 # Methods
 
-Our model will classify credit applicants into low, medium, or high risk categories based on their credit history, and thus we can model our problem as a supervised classification problem. When exploring and predicting on this dataset, we will use a litany of supervised and unsupervised methods. Our preliminary plan involves using simple unsupervised techniques such as K-means Clustering, Gaussian Mixture Models and Principal Component Analysis. These methods would allow us to understand the groupings/classifications of our data, as well as assist with feature selection and outlier removal.
+Our model will classify credit applicants into low, medium, or high risk categories based on their credit history, and thus we can model our problem as a supervised classification problem. Before applying supervised learning, we will transform and cluster our data using unsupervised methods, giving us crucial information to help design our supervised algorithms. 
+
+When exploring and predicting on this dataset, we will use a litany of supervised and unsupervised methods. Our preliminary plan involves using simple unsupervised techniques such as K-means Clustering, Gaussian Mixture Models and Principal Component Analysis. These methods would allow us to understand the groupings/classifications of our data, as well as assist with feature selection and outlier removal.
 
 After these steps, we will move on to creating a supervised model, using techniques such as Support Vector Machines or Decision Trees. This will comprise the bulk of our results, and will likely require tuning and hyperparameter experimentation.
 
