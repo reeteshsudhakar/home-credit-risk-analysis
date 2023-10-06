@@ -3,6 +3,9 @@ title: Project Proposal
 layout: home
 ---
 
+# Project Proposal Video
+[![Home Credit Risk Analysis - CS 7641 Project Proposal](https://img.youtube.com/vi/4BlMsI4zgoA/0.jpg)](https://www.youtube.com/watch?v=4BlMsI4zgoA)
+
 # Project Introduction/Background
 
 One of the main functions of banks and other financial institutions is to act as money lenders and provide loans and credit lines for customers. However, in order for them to operate profitably and reduce risk of people defaulting on payments, they need to be able to assess an individual’s credibility. This is also applicable to determining the amount of interest they should charge on the loan and whether or not they should even offer the loan at all. This project aims to create a model for financial institutions to predict the credit risk of their borrowers. We will use the Home Credit Group dataset from Kaggle for this project, which has numerous data points about loan applicants and their credit risk. The dataset can be found at [this link](https://www.kaggle.com/c/home-credit-default-risk/data).
