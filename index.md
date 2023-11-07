@@ -1,5 +1,5 @@
 ---
-title: Project Proposal
+title: 1. Project Proposal
 layout: home
 ---
 
