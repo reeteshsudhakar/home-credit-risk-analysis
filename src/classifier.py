@@ -23,7 +23,7 @@ def fit_logistic_regression(X, y):
     return regression
 
 def fit_random_forest(X, y):
-    forest = RandomForestClassifier(random_state=10)
+    forest = RandomForestClassifier(random_state=10, max_depth = 10)
     forest.fit(X, y)
     return forest
 
