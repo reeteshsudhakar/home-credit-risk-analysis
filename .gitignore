@@ -22,5 +22,6 @@ Gemfile.lock
 
 # Ignore all data files
 **/data
+**/cleaned_data.csv
 
 **/__pycache__
