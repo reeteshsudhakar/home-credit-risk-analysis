@@ -2,28 +2,29 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.svm import LinearSVC
+from sklearn.tree import DecisionTreeClassifier
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import RandomizedSearchCV
-from sklearn.metrics import f1_score, confusion_matrix, ConfusionMatrixDisplay
+from sklearn.metrics import f1_score, confusion_matrix, ConfusionMatrixDisplay, accuracy_score
 
 
 
 def fit_svm_classifier(X, y):
-    pipeline = make_pipeline(StandardScaler(), LinearSVC(dual="auto", random_state=0, tol=1e-5))
+    pipeline = make_pipeline(LinearSVC(dual="auto", random_state=0, tol=1e-5, class_weight="balanced"))
     pipeline.fit(X, y)
     return pipeline
 
 def fit_logistic_regression(X, y):
     # It is called Logistic Regression but it is really a classifier (source: https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html)
-    regression = LogisticRegression()
+    regression = LogisticRegression(max_iter=200, class_weight= "balanced")
     regression.fit(X, y)
     return regression
 
 def fit_random_forest(X, y):
-    forest = RandomForestClassifier(random_state=10, max_depth = 10)
+    forest = RandomForestClassifier(n_estimators=50, random_state=10, max_depth = 50, class_weight= "balanced")
     forest.fit(X, y)
     return forest
 
@@ -32,6 +33,7 @@ def run_and_compare(train_X, train_y, test_x, test_y):
     svm = fit_svm_classifier(train_X, train_y)
     svm_f1 = f1_score(test_y, svm.predict(test_x))
     print(f"SVM f1-score: {svm_f1}")
+    plot_confusion_matrix(test_y, svm.predict(test_x))
     
     print("Running Logistic Classifier ....")
     logit = fit_logistic_regression(train_X, train_y)
@@ -40,8 +42,11 @@ def run_and_compare(train_X, train_y, test_x, test_y):
     
     print("Running Random Forest Classifier ....")
     forest = fit_random_forest(train_X, train_y)
-    forest_f1 = f1_score(test_y, forest.predict(test_x))
-    print(f"RF f1-score: {forest_f1}")
+    forest_predictions = forest.predict(test_x)
+    forest_f1 = f1_score(test_y, forest_predictions)
+    print(f"DT f1-score: {forest_f1}")
+    print(f"baseline: {f1_score(test_y, np.zeros(test_y.shape))}")
+    plot_confusion_matrix(test_y, forest_predictions)
 
 def tune_hyperparameters(X, y, parameters, model):
     searcher = RandomizedSearchCV(model, parameters, scoring = "balanced_accuracy")
@@ -49,7 +54,7 @@ def tune_hyperparameters(X, y, parameters, model):
     return searcher.best_params_, searcher.best_estimator_
 
 def plot_confusion_matrix(ground_truth, predictions):
-    confusion_array = confusion_matrix(ground_truth, predictions, normalize = "all")
+    confusion_array = confusion_matrix(ground_truth, predictions)
     disp = ConfusionMatrixDisplay(confusion_matrix=confusion_array)
     disp.plot()
     plt.show()
