@@ -1,5 +1,5 @@
 import pandas as pd 
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import RobustScaler
 from sklearn.decomposition import PCA
 
 # ignore_columns = ['APARTMENTS_AVG', 'BASEMENTAREA_AVG', 'YEARS_BEGINEXPLUATATION_AVG',
@@ -21,7 +21,8 @@ from sklearn.decomposition import PCA
 ignore_columns = ['FLAG_DOCUMENT_2', 'FLAG_DOCUMENT_3', 'FLAG_DOCUMENT_4', 'FLAG_DOCUMENT_5', 'FLAG_DOCUMENT_6',
                   'FLAG_DOCUMENT_7', 'FLAG_DOCUMENT_8', 'FLAG_DOCUMENT_9', 'FLAG_DOCUMENT_10', 'FLAG_DOCUMENT_11',
                   'FLAG_DOCUMENT_12', 'FLAG_DOCUMENT_13', 'FLAG_DOCUMENT_14', 'FLAG_DOCUMENT_15', 'FLAG_DOCUMENT_16',
-                  'FLAG_DOCUMENT_17', 'FLAG_DOCUMENT_18', 'FLAG_DOCUMENT_19', 'FLAG_DOCUMENT_20', 'FLAG_DOCUMENT_21']
+                  'FLAG_DOCUMENT_17', 'FLAG_DOCUMENT_18', 'FLAG_DOCUMENT_19', 'FLAG_DOCUMENT_20', 'FLAG_DOCUMENT_21', "FLAG_MOBIL", "FLAG_CONT_MOBILE",
+                  "FLAG_EMP_PHONE"]
 
 def defaultClean(df: pd.DataFrame) -> None:
     df.drop(ignore_columns, axis=1, inplace=True)
@@ -32,7 +33,7 @@ def dropColumnsBetween(df: pd.DataFrame, start: str, end: str) -> None:
 
 def run_pca(df: pd.DataFrame, explained_var: float) -> pd.DataFrame:
     # Standardize the data
-    X_std = StandardScaler().fit_transform(df)
+    X_std = RobustScaler().fit_transform(df)
 
     # running PCA
     pca = PCA(n_components=explained_var)
