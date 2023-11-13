@@ -17,11 +17,27 @@ In today's volatile housing market, numerous potential borrowers face challenges
 
 # Results and Discussion 
 
-# Contribution Table
+# Team Contributions
+
+## Contribution Table
 
 | Yash Gupta | Reetesh Sudhakar | Nityam Bhachawat | Mark Nathaniel Glinberg |
 | ---------- | ---------------- | ---------------- | ----------------------- |
 | Methods (Classifier, Data Pre-processing), Potential Results & Discussion (Classifier Metrics) | Project Website & Documentation, Introduction & Background, Problem Definition, Literature Review, Methods (Data Pre-processing) | Dataset Exploration & Pre-processing (manual feature selection selection via code), Classifier code, Results (Metric Analysis) | Project Timeline, Project Introduction & Background, Literature Review, Dataset Visualization and Exploration (manual feature selection & processing), Data Pre-processing |
+
+## Project Timeline and Gantt Chart
+
+Our team used the Gantt Chart that was created earlier in the semester to track our progress and maintain accountability between one another. We checked off certain boxes as our work progressed, and the updated Gantt Chart is included below. To access view the Excel file and download it, please [click here](resources/GanttChart.xlsx "download").
+
+![Midterm Report - Gantt Chart](resources/midterm-gantt-chart.png)
+
+Moving forward, our team has established the following goals and timelines for the final portion of the project:
+- Explore the dataset further (1 - 2 weeks): Though the dataset that we worked with up until this point had over 100 features, it was a small portion of the provided dataset. For the final portion of the project, we want to integrate features from other portions of the dataset. 
+- Create custom features (0 - 1 week): From examining the dataset, we noticed that certain features can be combined in some aspect to create a new feature that may be more telling (e.g. a ratio, a multiplicative factor, etc.). Creating these features will help us have a better grasp of the data, also allowing us to feed in a better cleaned dataset into our classification models. 
+- Improve Data Processing Methods: Something that our group did to ensure that there were no missing values was to use the Simple Imputer model from the Scikit-Learn library. Filling values with a constant could lead to distortions of the data, which could affect model predictions. In the future, we hope to use a more sophisticated method to take underlying patterns in the data into account.
+- Improve Classification Models (1 week): Based on the performance metrics that were computed up until this point, we hope to improve upon those metrics as we process more robust, telling data. We also hope to explore different configurations of binary classifiers and how they can better predict home credit defaulting.
+
+To assess these changes and improvements, we will continually analyze the performance metrics of our classifier, and we will also continue to create visualizations of our data as we clean it and process more features. 
 
 ---
 
