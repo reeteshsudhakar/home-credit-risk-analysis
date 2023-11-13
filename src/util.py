@@ -31,12 +31,12 @@ def dropColumnsBetween(df: pd.DataFrame, start: str, end: str) -> None:
     columns = df.columns.tolist()
     df.drop(columns[columns.index(start) : columns.index(end) + 1], axis=1, inplace=True)
 
-def run_pca(df: pd.DataFrame, explained_var: float) -> pd.DataFrame:
+def run_pca(df: pd.DataFrame, n_components: float) -> pd.DataFrame:
     # Standardize the data
     X_std = RobustScaler().fit_transform(df)
 
     # running PCA
-    pca = PCA(n_components=explained_var)
+    pca = PCA(n_components=n_components)
     principal_components = pca.fit_transform(X_std)
     principal_df = pd.DataFrame(data=principal_components, columns = [f'Component {x}' for x in range(1, principal_components.shape[1] + 1)])
 
