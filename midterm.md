@@ -71,6 +71,69 @@ Our initial dataset for training the binary classification model, aimed at predi
 
 This comprehensive data preparation process ensures a robust, relevant, and efficient dataset, ready for deploying in our binary classification model to predict home credit loan defaults.
 
+# Data Visualizations
+To help us understand the dataset better, we plotted many features using `pandas` and `plotly`. First, we wanted to determine the balance of our dataset for the binary classification, so we examined the number of non-defaults, 0, and the number of defaults, 1.
+
+![Number of Defaults Plot](resources/midterm/num-defaults.png)
+
+This chart shows that the dataset is heavily skewed in favor of people who didn't default on their loans, which is representative of the real world. That implies that high accuracy results aren't necessarily a sign of a working algorithm, and that we would need to use other metrics to make sure our models work properly.
+
+--- 
+
+We then wanted to examine the income distribution of the individuals who were represented in the data set. 
+
+![Income Distribution Plot](resources/midterm/income-distribution.png)
+
+This chart just shows the income distribution of our dataset, without some heavy outliers with an absolute z-score of 5 or higher. The distribution matches up with a generic population distribution of incomes, which shows that our dataset is a good representation of larger populations.
+
+The following charts are overlayed histograms which divide the data by default status, with the orange being those who did default and the blue representing those who didn't default. All of the charts are normalized around the likelihood of any datapoint landing in a certain bin given a person's default status, as just measuring the total count isn't very useful since so many more people didn't default than those who did. The dataset also included credit ratings and history from other external sources (**EXT_SOURCE_1, EXT_SOURCE_2, EXT_SOURCE_3**), and we knew that we wanted to explore these features more to understand their impact on classifier results:
+
+![External Source 1 Plot](resources/midterm/ext-source-1.png)
+![External Source 2 Plot](resources/midterm/ext-source-2.png)
+![External Source 3 Plot](resources/midterm/ext-source-3.png)
+
+**EXT_SOURCE_1**: This chart shows that the EXT_SOURCE_1 metric predicts a higher value for those who are less likely to default, and does a fairly good job of splitting the data, although it's a very gradual split.
+
+**EXT_SOURCE_2**: This chart shows that the EXT_SOURCE_2 metric predicts a higher value for those who are less likely to default, and can predict the likelihood of not defaulting pretty well, though it has a more uniform distribution for those who did end up defaulting.
+
+**EXT_SOURCE_3**: EXT_SOURCE_3 also predicts a higher value for those who are less likely to default, and follows a similar distribution to EXT_SOURCE_1, with a higher emphasis on those who didn't default.
+
+--- 
+
+Aside from external sources, we also found some metrics that have relationships with default status. These plots are shown below:
+
+![Days Birth Plot](resources/midterm/days-birth.png)
+
+The amount of days since your birth seems to directly relate to a person's default status. The more days since you were born (the older you are), the less likely it seems you are to default.
+
+![Days Last Phone Change Plot](resources/midterm/days-last-phone-change.png)
+
+--- 
+
+Finally, we examined some demographics and and general information regarding each of the individuals included in the data set. Some significant or interesting plots of the data are shown below: 
+
+![Gender Plot](resources/midterm/code-gender.png)
+
+The graph shows that there are more people who identified as female in the dataset, and overall, males were more likely to default on their loans.
+
+![Occupation Type Plot](resources/midterm/occupation-type.png)
+
+Overall, people with occupations which usually pay more seemed to default significantly less. Those occupations include: core staff, managers, high skill tech staff, accountants, medicine staff, and private service staff. The rest of the occupations were either about even or had higher proportions of people who defaulted.
+
+![Education Type Plot](resources/midterm/education-type.png)
+
+Similar to occupation, people with a higher level of education ended up comprising a smaller portion of those who defaulted on their loans.
+
+![Housing Type Plot](resources/midterm/housing-type.png)
+
+Those who live in their own housing comprise a relatively smaller proportion of those who defaulted than those who didn't, while almost every other housing type did the opposite.
+
+![Organization Type Plot](resources/midterm/organization-type.png)
+
+This dataset is harder to analyze as there are a lot of categories that divide the data, but it also displays the different organizations people are in and what percentage of those who defaulted and those who didn't came from each type of organization.
+
+Overall, these visualizations helped our group understand the data set better, give us insights into important features, and how to best prepare them for classification.
+
 # Methods
 After rigorously cleaning and processing our dataset, we advanced to the phase of training classifiers and generating predictions on the test data set aside for validation. We selected two distinct classifiers for this task: the Support Vector Classifier (SVC) and the Logistic Regression Classifier. The choice of SVC and Logistic Regression was strategic, given their proven efficacy in binary classification problems. These models are well known for their ability to handle high-dimensional data efficiently and are less prone to overfitting, especially relevant given the size of our dataset. This consideration is crucial, as models like Neural Networks, while powerful, typically require substantially larger datasets to perform effectively and were thus deemed unsuitable for our current data volume.
 
