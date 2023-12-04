@@ -41,3 +41,16 @@ def run_pca(df: pd.DataFrame, n_components: float) -> pd.DataFrame:
     principal_df = pd.DataFrame(data=principal_components, columns = [f'Component {x}' for x in range(1, principal_components.shape[1] + 1)])
 
     return principal_df
+
+
+def one_hot_encode_column(dataframe, feature):
+    dummies = pd.get_dummies(dataframe[[feature]])
+    res = pd.concat([dataframe, dummies], axis=1)
+    res = res.drop([feature], axis=1)
+    return res
+
+def onehot_categorical_columns(dataframe, columns):
+    frame = dataframe
+    for column in columns:
+        frame = one_hot_encode_column(frame, column)
+    return frame

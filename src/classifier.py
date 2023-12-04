@@ -23,12 +23,12 @@ def fit_logistic_regression(X, y):
     return regression
 
 def fit_random_forest(X, y):
-    forest = XGBClassifier(n_estimators=100, random_state=10, max_depth = 100, objective='binary:logistic', scale_pos_weight=40)
+    forest = XGBClassifier(n_estimators=100, random_state=10, max_depth = 100, objective='binary:logistic', scale_pos_weight=10)
     forest.fit(X, y)
     return forest
 
 def run_and_compare(train_X, train_y, test_x, test_y):
-    print(f"baseline balanced-accuracy-score: {balanced_accuracy_score(test_y, np.zeros(test_y.shape))}")
+    # print(f"baseline balanced-accuracy-score: {balanced_accuracy_score(test_y, np.zeros(test_y.shape))}")
 
     print("Running Support Vector Classifier ....")
     svm = fit_svm_classifier(train_X, train_y)
@@ -42,12 +42,12 @@ def run_and_compare(train_X, train_y, test_x, test_y):
     print(f"Logistic Classifier balanced accuracy: {logit_balanced_accuracy}")
     plot_confusion_matrix(test_y, logit.predict(test_x), title="Logistic Regression Confusion Matrix")
     
-    # print("Running Random Forest Classifier ....")
-    # forest = fit_random_forest(train_X, train_y)
-    # forest_predictions = forest.predict(test_x)
-    # forest_f1 = f1_score(test_y, forest_predictions)
-    # print(f"DT f1-score: {forest_f1}")
-    # plot_confusion_matrix(test_y, forest_predictions)
+    print("Running GB Classifier ....")
+    forest = fit_random_forest(train_X, train_y)
+    forest_predictions = forest.predict(test_x)
+    forest_f1 = balanced_accuracy_score(test_y, forest_predictions)
+    print(f"Gradient Boosted balanced accuracy: {forest_f1}")
+    plot_confusion_matrix(test_y, forest_predictions)
 
 def tune_hyperparameters(X, y, parameters, model):
     searcher = RandomizedSearchCV(model, parameters, scoring = "balanced_accuracy")
@@ -59,6 +59,7 @@ def plot_confusion_matrix(ground_truth, predictions, title = "Confusion Matrix")
     disp = ConfusionMatrixDisplay(confusion_matrix=confusion_array)
     disp.plot()
     plt.show()
+
 
 
 
