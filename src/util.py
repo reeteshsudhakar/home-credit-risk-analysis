@@ -1,5 +1,5 @@
 import pandas as pd 
-from sklearn.preprocessing import RobustScaler, MinMaxScaler, StandardScaler
+from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 
 # ignore_columns = ['APARTMENTS_AVG', 'BASEMENTAREA_AVG', 'YEARS_BEGINEXPLUATATION_AVG',
@@ -33,7 +33,7 @@ def dropColumnsBetween(df: pd.DataFrame, start: str, end: str) -> None:
 
 def run_pca(df: pd.DataFrame, n_components: float) -> pd.DataFrame:
     # Standardize the data
-    X_std = MinMaxScaler().fit_transform(df)
+    X_std = StandardScaler().fit_transform(df)
 
     # running PCA
     pca = PCA(n_components=n_components)
