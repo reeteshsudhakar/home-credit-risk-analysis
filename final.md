@@ -1,8 +1,22 @@
 ---
 title: 3. Final Report
-layout: home
+layout: default
 ---
+# Final Report
+{: .no_toc }
+
+This is our final report for our CS 7641 Group Project, which aims to analyze home credit risk. This report is a continuation on our proposal and midterm report. 
+{: .fs-6 .fw-300 }
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+
 # Video Presentation 
+[![Home Credit Risk Analysis - CS 7641 Final Project Report](https://img.youtube.com/vi/gsQTTimtrDo/0.jpg)](https://youtu.be/gsQTTimtrDo)
 
 # Introduction / Background
 Banks and financial institutions act as money lenders and provide loans, as well as credit lines for millions of customers worldwide. However, for them to operate in a profitable manner and reduce the risk of their customers defaulting on payments for loans, they have to be able to accurately assess an individual's potential to default on their credit (in general, their overall credibility). This is also highly beneficial for them to determine the amount of interest that they should be charging on a given loan, and overall, whether they should offer the loan in the first place. This project is based around building a binary classification model that can be used to predict whether a borrower will default on their loan (meaning that they are unable to pay back a loan provided by a financial institution). A review of relevant literature showed us that privately securitized adjustable-rate mortgages have much more variance in performance when compared to retained mortgages, underscoring the importance of providing financial institutions with the best tools to aid decision making processes [(Krainer & Laderman, 2013)](https://doi.org/10.1007/s10693-013-0161-7‌). Delving into the literature revolving around this topic also greatly helped influence decisions made for this report, which will be elaborated on further in later sections.
@@ -110,7 +124,7 @@ This dataset is harder to analyze as there are a lot of categories that divide t
 Overall, these visualizations helped our group understand the data set better, give us insights into important features, and how to best prepare them for classification.
 
 # Methods
-After rigorously cleaning and processing our dataset, we advanced to the phase of training classifiers and generating predictions on the test data set aside for validation. We selected three distinct classifiers for this task: the Support Vector Classifier (SVC), the Logistic Regression Classifier (LR), and the Random Forest Classifier (RF). The choice of SVC and Logistic Regression was strategic, given their proven efficacy in binary classification problems. These models are well known for their ability to handle high-dimensional data efficiently and are less prone to overfitting, especially relevant given the size of our dataset. This consideration is crucial, as models like Neural Networks, while powerful, typically require substantially larger datasets to perform effectively and were thus deemed unsuitable for our current data volume. With regards to our SVC, we opted to use a Stochastic Gradient Descent (SGD) optimizer, as it greatly improved the runtime efficiency while also giving similar results in terms of metrics that we observed. Out of pure curiosity, we decided to also test using another classifier, the Random Forest classifier, as it is a popular choice for classification problems and is known to be a powerful classifier. We also wanted to see how it would compare to the other two classifiers we chose.
+After rigorously cleaning and processing our dataset, we advanced to the phase of training classifiers and generating predictions on the test data set aside for validation. We selected three distinct classifiers for this task: the Support Vector Classifier (SVC), the Logistic Regression Classifier (LR), and the Random Forest Classifier (RF). The choice of SVC and Logistic Regression was strategic, given their proven efficacy in binary classification problems. These models are well known for their ability to handle high-dimensional data efficiently and are less prone to overfitting, especially relevant given the size of our dataset. This consideration is crucial, as models like Neural Networks, while powerful, typically require substantially larger datasets to perform effectively and were thus deemed unsuitable for our current data volume. With regards to our SVC, we opted to use a Stochastic Gradient Descent (SGD) optimizer, as it greatly improved the runtime efficiency while also giving similar results in terms of metrics that we observed. Out of pure curiosity, we decided to also test using another model, the Random Forest classifier, as it is a popular choice and is known to be a powerful classifier. We also wanted to see how it would compare to the other two models we chose.
 
 To ensure the best possible performance of each classifier, we applied appropriate feature scaling techniques. Though we used the RobustScaler for the midterm report, we decided to use the MinMaxScaler for the classifiers, as the RobustScaler may have caused a loss of information by changing the distribution. On the other hand, the MinMaxScaler primarily scaled the data, thus preventing a lossy conversion. We employed this MinMaxScaler for each of our classifiers, which we found to be a great change from the midterm portion of this project. 
 
@@ -118,7 +132,7 @@ Upon training both classifiers on the training data, we employed the balanced ac
 
 We also messed around with the hyperparameters of each classifier to see if we could improve the performance of our models. We tried using `sklearn`'s hyperparameter tuning methods to find the best hyperparameters for each classifier, but we found that the runtime was too long for our computers to handle within the time constraints of the project implementation. That said, we did find some hyperparameters that worked well for each classifier, and we used those for the final portion of this project. 
 
-Finally, we also wanted to see how we could combine the three models together into a better model, so we used `sklearn`'s VotingClassifier to combine the three models together. We found that this model did not have a significant improvement over the other models, but it was interesting to examine. The code for each of the descirbed classifiers is shown below. 
+Finally, we also wanted to see how we could combine the three models together into a better model, so we used `sklearn`'s VotingClassifier to combine the three models together. We found that this model did not have a significant improvement over the other models, but it was interesting to examine nonetheless. The code for each of the described classifiers is shown below. 
 
 ```python
     def fit_svm_classifier(X, y):
@@ -135,14 +149,6 @@ Finally, we also wanted to see how we could combine the three models together in
         pipeline = make_pipeline(MinMaxScaler(), RandomForestClassifier(max_depth=10, random_state=0, class_weight="balanced"))
         pipeline.fit(X, y)
         return pipeline
-
-    def fit_voting_classifier(X, y):
-        svm_pipeline = make_pipeline(MinMaxScaler(), SGDClassifier(loss="log_loss", random_state=0, class_weight="balanced", max_iter=10000))
-        lr_pipeline = make_pipeline(MinMaxScaler(), LogisticRegression(C=2, random_state=0, class_weight="balanced", max_iter=10000))
-        rf_pipeline = make_pipeline(MinMaxScaler(), RandomForestClassifier(max_depth=10, random_state=0, class_weight="balanced"))
-        pipeline = VotingClassifier(estimators=[('svm', svm_pipeline), ('lr', lr_pipeline), ('rf', rf_pipeline)], voting='soft')
-        pipeline.fit(X, y)
-        return pipeline
 ```
     
 The results and metrics for each of the models we trained are shown in the next section. 
@@ -150,7 +156,7 @@ The results and metrics for each of the models we trained are shown in the next 
 # Results and Discussion
 The classification task at hand presents an inherent class imbalance, a common obstacle in credit prediction scenarios where defaults are considerably less frequent than non-defaults. To aptly measure model efficacy, we opted for balanced accuracy over raw accuracy, as it accounts for the skew in class distribution. Balanced accuracy offers a more nuanced assessment by considering the model's ability to correctly predict both classes.
 
-Our initial model, a baseline majority class classifier, predicted a non-default for all instances, achieving a 50% accuracy, which is expected in a binary classification with imbalanced classes. Upon applying the Support Vector Classifier (SVC) post-normalization with the StandardScaler and SGD Optimization, the balanced accuracy improved to 65.3%. This notable enhancement over the baseline underscores the model's improved discriminatory power. The SVC's confusion matrix reveals a tendency to predict non-defaults more accurately (83%) compared to defaults (48%). This showed a significant improvement in our predicting non-defaults as compared to our previous results. There is still great room for improvement with predicting defaults accurately, as the true positive rate for defaults was lower than we had initially hoped. The confusion matrix is shown below, and can be viewed separately [by clicking here](resources/final/svc-confusion-matrix.png "download"): 
+Our initial model, a baseline majority classifier, predicted a non-default for all instances, achieving a 50% accuracy, which is expected in a binary classification with imbalanced groups. Upon applying the Support Vector Classifier (SVC) post-normalization with the StandardScaler and SGD Optimization, the balanced accuracy improved to 65.3%. This notable enhancement over the baseline underscores the model's improved discriminatory power. The SVC's confusion matrix reveals a tendency to predict non-defaults more accurately (83%) compared to defaults (48%). This showed a significant improvement in our predicting non-defaults as compared to our previous results. There is still great room for improvement with predicting defaults accurately, as the true positive rate for defaults was lower than we had initially hoped. The confusion matrix is shown below, and can be viewed separately [by clicking here](resources/final/svc-confusion-matrix.png "download"): 
 
 ![Final SVC Confusion Matrix](resources/final/svc-confusion-matrix.png)
 
@@ -158,7 +164,7 @@ For the SVC, a high F1 score of around 0.833 demonstrates a robust balance betwe
 
 The Logistic Regression Classifier (LR) also demonstrated a notable improvement over the baseline, achieving a balanced accuracy of 68%. This saw a huge leap from our initial implementation of the midterm report, which saw a balanced accuracy of only 53.3%. This model's confusion matrix reveals a tendency to predict defaults and non-defaults in a more balanced manner, as compared to SVC (68% for both defaults and non-defaults). This showed a significant improvement in our predictions as compared to our previous results.  The confusion matrix is shown below, and can be viewed separately [by clicking here](resources/final/lr-confusion-matrix.png "download"):
 
-![Final LR Confusion Matrix](resources/final/svc-confusion-matrix.png)
+![Final LR Confusion Matrix](resources/final/lr-confusion-matrix.png)
 
 The performance metrics that we examined for this portion of the project for the Logistic Regression classifier suggest it is quite effective. The F1 score, at around 0.755, shows a solid balance between precision and recall, implying the model is reasonably accurate in identifying true positives while minimizing false negatives. Moreover, the high precision score of about 0.895 is particularly impressive, indicating that the classifier has a high success rate in correctly identifying positive cases and a low rate of false positives. This high precision is crucial in contexts where false positives can be costly or detrimental. Overall, these metrics suggest that the Logistic Regression model performs well in class differentiation with a strong emphasis on accurate positive predictions.
 
@@ -168,17 +174,39 @@ Finally, we decided to examine our Random Forest Classifier out of pure interest
 
 The performance metrics for the Random Forest classifier indicate a competent level of effectiveness in classification. The F1 score, at approximately 0.836, suggests a strong balance between precision and recall, indicating that the model is effective in correctly identifying a high proportion of actual positive cases while maintaining a low rate of false negatives. Additionally, the precision score of about 0.882 highlights the model's accuracy in predicting positive instances, meaning it has a relatively low frequency of false positives. This high precision is especially valuable in situations where incorrectly labeling negative instances as positive could be problematic. Overall, these metrics suggest that the Random Forest classifier is a robust model, capable of effectively distinguishing between classes with a high degree of accuracy in its positive predictions.
 
+The below table showcases the key metrics that we analyzed for each of the models we trained.
+
+| Classifier | Balanced Accuracy | F1 Score | Precision Score |
+|:-----------|:------------------|:---------|:----------------|
+| SVC        | 65.3%             | 0.833    | 0.887           |
+| LR         | 68.0%             | 0.755    | 0.895           |
+| RF         | 63.1%             | 0.836    | 0.882           |
+
+# Concluding Thoughts, Next Steps
+
+Our project focused on credit prediction using machine learning models. We applied appropriate feature scaling techniques and evaluated the performance of three classifiers: Support Vector Classifier (SVC), Logistic Regression Classifier (LR), and Random Forest Classifier (RF). The SVC showed significant improvements in predicting non-defaults, achieving a balanced accuracy of 65.3% and a high precision score of 0.887. The LR model demonstrated a notable improvement over the baseline, achieving a balanced accuracy of 68% and a high precision score of 0.895. The RF model achieved a balanced accuracy of 63.1% and demonstrated a strong balance between precision and recall. Overall, our models performed well in distinguishing between classes, with each model having its own strengths and weaknesses. These findings provide valuable insights into the effectiveness of different machine learning algorithms for credit prediction tasks.
+
+We aim to further refine and explore specific techniques to enhance our models. For starters, we believe that developing custom features and integrating various features together, as informed by our extensive dataset analysis, could significantly boost our models' performance. Secondly, despite our efforts, the KNN imputation technique proved impractical for our dataset due to excessive computational time and unresolved errors, leading us to abandon this approach. Nevertheless, we recognize its potential for model improvement. Furthermore, we plan to test additional classifiers to identify a more effective model for this dataset. A potential strategy to also integrate our previous efforts with this includes combining different models together, leveraging their collective strengths, such as using a voting classifier, to further enhance performance.
+
 # Team Contributions
 
 ## Contribution Table
 
-## Project Timeline and Gantt Chart
+| Yash Gupta | Reetesh Sudhakar | Nityam Bhachawat | Mark Nathaniel Glinberg |
+|:-----------|:-----------------|:-----------------|:------------------------|
+| Methods (Classifier code, Data Processing), Results & Discussion (Classifier Metrics Analysis)| GitHub repository, Project Website, Problem Definition, Introduction, Methods (Classifier code, Performance Metrics, Parameter Tuning) | Video Presentation, Data Processing, Dataset Exploration, Methods (Parameter Tuning) | Project Timeline, Project Introduction/Background, Literature Review, Data Processing, Feature Engineering, Dataset Exploration |
+
+
+## Project Timeline - Gantt Chart
+Our team used the Gantt Chart that was created earlier in the semester to track our progress and maintain accountability between one another. We checked off certain boxes as our work progressed, and the updated Gantt Chart is included below. We had to slightly deviate from it, and we updated it to track our changes accordingly, and share our progress with our team members as we took advances on our assigned work, or had delays in our progress. To access view the Excel file and download it, please [click here](resources/GanttChart.xlsx "download").
+
+![Final Report - Gantt Chart](resources/final/gantt-chart.png)
 
 ---
 
 # References
 
-1. Bao, W., Lianju, N., & Yue, K. (2019). Integration of unsupervised and supervised machine learning algorithms for credit risk assessment. Expert Systems with Applications, 128, 301–315. https://doi.org/10.1016/j.eswa.2019.02.033
-2. de Castro Vieira, J. R., Barboza, F., Sobreiro, V. A., & Kimura, H. (2019). Machine learning models for credit analysis improvements: Predicting low-income families’ default. Applied Soft Computing, 83, 105640. https://doi.org/10.1016/j.asoc.2019.105640
-3. Emad Azhar Ali, S., Sajjad Hussain Rizvi, S., Lai, F.-W., Faizan Ali, R., & Ali Jan, A. (2021). Predicting Delinquency on Mortgage Loans: An Exhaustive Parametric Comparison of Machine Learning Techniques. Vol12 - Issue 1, Volume 12(Issue 1), 1–13. https://doi.org/10.24867/ijiem-2021-1-272
-4. Krainer, J., & Laderman, E. (2013). Mortgage Loan Securitization and Relative Loan Performance. Journal of Financial Services Research, 45(1), 39–66. https://doi.org/10.1007/s10693-013-0161-7‌
+1. Bao, W., Lianju, N., & Yue, K. (2019). Integration of unsupervised and supervised machine learning algorithms for credit risk assessment. Expert Systems with Applications, 128, 301–315. [https://doi.org/10.1016/j.eswa.2019.02.033](https://doi.org/10.1016/j.eswa.2019.02.033)
+2. de Castro Vieira, J. R., Barboza, F., Sobreiro, V. A., & Kimura, H. (2019). Machine learning models for credit analysis improvements: Predicting low-income families’ default. Applied Soft Computing, 83, 105640. [https://doi.org/10.1016/j.asoc.2019.105640](https://doi.org/10.1016/j.asoc.2019.105640)
+3. Emad Azhar Ali, S., Sajjad Hussain Rizvi, S., Lai, F.-W., Faizan Ali, R., & Ali Jan, A. (2021). Predicting Delinquency on Mortgage Loans: An Exhaustive Parametric Comparison of Machine Learning Techniques. Vol12 - Issue 1, Volume 12(Issue 1), 1–13. [https://doi.org/10.24867/ijiem-2021-1-272](https://doi.org/10.24867/ijiem-2021-1-272)
+4. Krainer, J., & Laderman, E. (2013). Mortgage Loan Securitization and Relative Loan Performance. Journal of Financial Services Research, 45(1), 39–66. [https://doi.org/10.1007/s10693-013-0161-7‌](https://doi.org/10.1007/s10693-013-0161-7‌)
