@@ -1,6 +1,6 @@
 ---
 title: 1. Project Proposal
-layout: home
+layout: default
 ---
 
 # Project Proposal Video
