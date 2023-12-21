@@ -1,6 +1,7 @@
 ---
-title: 3. Final Report
+title: Final Report
 layout: default
+nav_order: 4
 ---
 # Final Report
 {: .no_toc }
